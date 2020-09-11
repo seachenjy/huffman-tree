@@ -38,6 +38,9 @@ function huffmanEncode(strings){
     var table = []
     var path = "0"
     traversing(table,tree[0],path)
+    table.sort((a,b)=>{
+        return hash[a[0]] > hash[b[0]] ? -1 : 1
+    })
     writeTable(table,hash)
 }
 
