@@ -16,32 +16,40 @@ function huffmanEncode(strings){
             s:i
         })
     }
-    tree.sort((a,b)=>{
-        return a.n < b.n ? -1 : 1
-    })
     
-    while(tree.length > 1){
-        let _a = tree.splice(0,1)[0]
-        let _b = tree.splice(0,1)[0]
-        
-        let node = {
-            n:_a.n+_b.n,
-            s:false,
-            l:_a,
-            r:_b
-        }
-        tree.push(node)
-        tree.sort((a,b)=>{
-            return a.n < b.n ? -1 : 1
-        })
-    }
+    makeTree(tree)
+
     var table = []
-    var path = "0"
+    var path = "1"
+    
     traversing(table,tree[0],path)
     table.sort((a,b)=>{
         return hash[a[0]] > hash[b[0]] ? -1 : 1
     })
     writeTable(table,hash)
+    console.log(tree)
+}
+
+function makeTree(tree){
+    tree.sort((a,b)=>{
+        return a.n < b.n ? -1 : 1
+    })
+
+    let _a = tree.splice(0,1)[0]
+    let _b = tree.splice(0,1)[0]
+
+    let node = {
+        n:_a.n+_b.n,
+        s:false,
+        l:_a,
+        r:_b
+    }
+
+    tree.push(node)
+
+    if (tree.length > 1) {
+        makeTree(tree)
+    }
 }
 
 
@@ -66,12 +74,11 @@ function traversing(table,node,path){
         table.push([node.s,path])
     }
     if(node.hasOwnProperty("l")){
-        path += "0"
-        traversing(table,node.l,path)
+        
+        traversing(table,node.l,path + "0")
     }
     if(node.hasOwnProperty("r")){
-        path += "1"
-        traversing(table,node.r,path)
+        
+        traversing(table,node.r,path + "1")
     }
-    return table
 }
