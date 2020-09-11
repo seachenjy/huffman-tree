@@ -9,7 +9,6 @@ function huffmanEncode(strings){
         let c = strings[i]
         hash.hasOwnProperty(c) ? hash[c]++ : hash[c]=1
     }
-    writeStatis(hash)
     let tree = []
     for(let i in hash){
         tree.push({
@@ -39,24 +38,17 @@ function huffmanEncode(strings){
     var table = []
     var path = "0"
     traversing(table,tree[0],path)
-    writeTable(table)
+    writeTable(table,hash)
 }
 
-function writeStatis(hash){
-    var innerHTML = ""
-    for(var i in hash){
-        innerHTML += "<tr><td style='background:#eee'>"+i+"</td><td>"+hash[i]+"</td></tr>"
-    }
-    document.getElementById("tables").innerHTML += "<table>"+innerHTML+"</table>"
-}
 
-function writeTable(table){
+function writeTable(table,hash){
     var innerHTML = ""
     table.map(item=>{
-        innerHTML += "<tr><td style='background:#eee'>"+item[0]+"</td><td>"+item[1]+"</td></tr>"
+        innerHTML += "<tr><td>"+item[0]+"</td><td>"+hash[item[0]]+"</td><td>"+item[1]+"</td></tr>"
     })
 
-    document.getElementById("tables").innerHTML += "<table>"+innerHTML+"</table>"
+    document.getElementById("tables").innerHTML += "<table><tr><th>char</th><th>count</th><th>code</th></tr>"+innerHTML+"</table>"
 }
 
 /**
